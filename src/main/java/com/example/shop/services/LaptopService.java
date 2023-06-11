@@ -1,5 +1,6 @@
 package com.example.shop.services;
 
+import com.example.shop.dao.entity.HardDisk;
 import com.example.shop.dao.entity.Laptop;
 import com.example.shop.dao.repositories.LaptopRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,17 @@ public class LaptopService {
         return repository.save(laptop);
     }
 
-    public Laptop update(Laptop laptop) {
+    public Laptop update(Long id, Laptop laptop) {
+        Optional<Laptop> oldLaptop = repository.findById(id);
+        if (oldLaptop.isPresent()){
+            Laptop _laptop = oldLaptop.get();
+            _laptop.setSize(laptop.getSize());
+            _laptop.setManufacturer(laptop.getManufacturer());
+            _laptop.setPrice(laptop.getPrice());
+            _laptop.setQuantity(laptop.getQuantity());
+            _laptop.setSeriesNnumber(laptop.getSeriesNnumber());
+            return repository.save(_laptop);
+        }
         return repository.save(laptop);
     }
 

@@ -17,7 +17,17 @@ public class ComputerService {
         return repository.save(computer);
     }
 
-    public Computer update(Computer computer){
+    public Computer update(Long id, Computer computer){
+        Optional<Computer> oldComputer = repository.findById(id);
+        if (oldComputer.isPresent()){
+            Computer _computer = oldComputer.get();
+            _computer.setFormFactor(computer.getFormFactor());
+            _computer.setManufacturer(computer.getManufacturer());
+            _computer.setPrice(computer.getPrice());
+            _computer.setQuantity(computer.getQuantity());
+            _computer.setSeriesNnumber(computer.getSeriesNnumber());
+            return repository.save(_computer);
+        }
         return repository.save(computer);
     }
 

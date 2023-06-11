@@ -1,5 +1,6 @@
 package com.example.shop.services;
 
+import com.example.shop.dao.entity.Computer;
 import com.example.shop.dao.entity.HardDisk;
 import com.example.shop.dao.repositories.HardDiskRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,17 @@ public class HardDiskService {
         return repository.save(hardDisk);
     }
 
-    public HardDisk update(HardDisk hardDisk) {
+    public HardDisk update(Long id, HardDisk hardDisk) {
+        Optional<HardDisk> oldHardDisk = repository.findById(id);
+        if (oldHardDisk.isPresent()){
+            HardDisk _hardDisk = oldHardDisk.get();
+            _hardDisk.setVolume(hardDisk.getVolume());
+            _hardDisk.setManufacturer(hardDisk.getManufacturer());
+            _hardDisk.setPrice(hardDisk.getPrice());
+            _hardDisk.setQuantity(hardDisk.getQuantity());
+            _hardDisk.setSeriesNnumber(hardDisk.getSeriesNnumber());
+            return repository.save(_hardDisk);
+        }
         return repository.save(hardDisk);
     }
 
